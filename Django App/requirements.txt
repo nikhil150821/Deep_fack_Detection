@@ -57,7 +57,7 @@ packaging==24.1
 pandas==2.2.2
 pandocfilters==1.5.1
 parso==0.8.4
-pathtools==0.1.2
+pathtools
 pickleshare==0.7.5
 Pillow==10.3.0
 prometheus-client==0.20.0
@@ -73,7 +73,7 @@ pyrsistent==0.20.0
 python-dateutil==2.9.0
 # pytz==2019.3 Commenting for production deployment
 # pywin32==227
-pywinpty==0.5.7
+pywinpty>=1.1.0
 PyYAML==6.0.1
 pyzmq==26.0.3
 requests==2.32.3
