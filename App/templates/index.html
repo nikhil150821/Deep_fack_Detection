@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Upload for Deepfake Detection</h1>
+    <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+    </div>
+
+    <div class="card mx-auto" style="width: 50%;">
+        <div class="card-body">
+            <form action="/" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" name="media" id="media" accept="video/*,image/*" required class="form-control-file">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Upload and Predict</button>
+            </form>
+        </div>
+    </div>
+
+    {% if prediction %}
+    <div class="mt-4 text-center">
+        <h3>Prediction Result for {{ filename }}</h3>
+        <p>Prediction: <strong>{{ prediction }}</strong></p>
+        <video width="100%" controls>
+            <source src="{{ url_for('static', filename='uploads/' + filename) }}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

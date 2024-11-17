@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="logo text-center mb-3">
+        <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+    </div>
+    <hr />
+
+    {% if file_type == "image" %}
+        {% if uploaded_image %}
+            <h3>Image Prediction Result</h3>
+            <div class="result text-center mb-3">
+                <!-- Display uploaded image -->
+                <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Image" height="200px">
+                <h4>Result:
+                    <!-- Display prediction result for image -->
+                    {% if output == "Real" %}
+                        <span style="color:green">{{ output }}</span>
+                        <img src="{{ url_for('static', filename='images/thumbsup.png') }}" alt="real" height="100px">
+                    {% else %}
+                        <span style="color:red">{{ output }}</span>
+                        <img src="{{ url_for('static', filename='images/thumbsdown.png') }}" alt="fake" height="100px">
+                    {% endif %}
+                </h4>
+            </div>
+        {% else %}
+            <p>No image uploaded or processed.</p>
+        {% endif %}
+    {% elif file_type == "video" %}
+        {% if output == "Real" %}
+            <h3>Video Prediction Result</h3>
+            <div class="result text-center mb-3">
+                <!-- Display uploaded video -->
+                <video height="320" width="640" id="predict-media" controls>
+                    <source src="{{ url_for('static', filename='uploads/' + uploaded_video) }}" type="video/mp4" codecs="avc1.4d002a">
+                </video>
+                <h4>Result: <span style="color:green">{{ output }}</span>
+                    <img src="{{ url_for('static', filename='images/thumbsup.png') }}" alt="real" height="100px">
+                </h4>
+            </div>
+        {% else %}
+            <h3>Video Prediction Result</h3>
+            <div class="result text-center mb-3">
+                <!-- Display uploaded video -->
+                <video height="320" width="640" id="predict-media" controls>
+                    <source src="{{ url_for('static', filename='uploads/' + uploaded_video) }}" type="video/mp4" codecs="avc1.4d002a">
+                </video>
+                <h4>Result: <span style="color:red">{{ output }}</span>
+                    <img src="{{ url_for('static', filename='images/thumbsdown.png') }}" alt="fake" height="100px">
+                </h4>
+            </div>
+            <!-- Display error if no faces detected -->
+            <div class="alert alert-danger mt-3">
+                <strong>Error:</strong> No faces detected in the video. Cannot process further.
+            </div>
+        {% endif %}
+        
+        {% if file_type == "video" and faces_detected %}
+            <h3>Video Analysis Frames</h3>
+            <div id="frames" class="col-12 mt-4 mb-2">
+                <!-- Display preprocessed frames or cropped faces -->
+                {% for frame in preprocessed_images %}
+                    <img src="{{ url_for('static', filename=frame) }}" class="frame-image" height="150" alt="Frame Image">
+                {% endfor %}
+            </div>
+            <div class="col-12 mb-4">
+                {% for frame in faces_cropped_images %}
+                    <img src="{{ url_for('static', filename=frame) }}" class="face-cropped" height="100" alt="Cropped Face">
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Unsupported file type or no file uploaded. Please go back and try again.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js_cripts %}
+<script src="{{ url_for('static', filename='js/face-api.min.js') }}"></script>
+{% if file_type == "video" %}
+<script>
+  // Ensure face-api.js is loaded first
+  Promise.all([
+    faceapi.nets.ssdMobilenetv1.loadFromUri('/static/models'),  // Load the SSD MobileNet model
+    faceapi.nets.faceLandmark68Net.loadFromUri('/static/models'), // Load landmark model
+    faceapi.nets.faceRecognitionNet.loadFromUri('/static/models') // Load face recognition model
+  ]).then(startVideo);
+
+  // Start video playback and detection
+  async function startVideo() {
+    const video = document.getElementById('predict-media');
+    
+    // Start the video if it's ready
+    if (video) {
+      // Set video width and height
+      video.width = 640;
+      video.height = 320;
+      
+      // Call function to detect faces once video starts
+      video.addEventListener('play', () => {
+        detectFaces(video);
+      });
+    }
+  }
+
+  // Function to detect faces in the video
+  async function detectFaces(video) {
+    const canvas = faceapi.createCanvasFromMedia(video);
+    document.body.append(canvas);
+    const displaySize = { width: video.width, height: video.height };
+    faceapi.matchDimensions(canvas, displaySize);
+
+    // Continuously detect faces while the video is playing
+    setInterval(async () => {
+      // Detect faces and landmarks
+      const detections = await faceapi.detectAllFaces(video)
+                                        .withFaceLandmarks()
+                                        .withFaceDescriptors();
+
+      // Resize the canvas to match the video size and draw the detections
+      canvas?.clear();
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+      faceapi.draw.drawDetections(canvas, resizedDetections); // Draw bounding boxes around faces
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections); // Draw landmarks on faces
+    }, 100); // Adjust detection interval (in milliseconds)
+  }
+</script>
+{% endif %}
+{% endblock %}
