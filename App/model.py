@@ -11,39 +11,30 @@ from PIL import Image
 import time
 
 # Define your model architecture (example: a simple CNN)
-class tModel(nn.Module):
-    def __init__(self, num_classes, latent_dim=2048, lstm_layers=1, hidden_dim=2048, bidirectional=False):
-        super(tModel, self).__init__()
-        model = models.resnext50_32x4d(pretrained=True)
+class Model(nn.Module):
+    def __init__(self, num_classes,latent_dim= 2048, lstm_layers=1 , hidden_dim = 2048, bidirectional = False):
+        super(Model, self).__init__()
+        model = models.resnext50_32x4d(pretrained = True)
         self.model = nn.Sequential(*list(model.children())[:-2])
-        self.lstm = nn.LSTM(latent_dim, hidden_dim, lstm_layers, bidirectional)
+        self.lstm = nn.LSTM(latent_dim,hidden_dim, lstm_layers,  bidirectional)
         self.relu = nn.LeakyReLU()
         self.dp = nn.Dropout(0.4)
-        self.linear1 = nn.Linear(2048, num_classes)
+        self.linear1 = nn.Linear(2048,num_classes)
         self.avgpool = nn.AdaptiveAvgPool2d(1)
-
     def forward(self, x):
-        # Check the shape of input
-        if len(x.shape) == 4:  # If it's a 4D tensor [batch_size, channels, height, width]
-            batch_size, c, h, w = x.shape
-            seq_length = 1  # Set sequence length to 1 for non-sequential input
-        elif len(x.shape) == 5:  # If it's a 5D tensor [batch_size, seq_length, channels, height, width]
-            batch_size, seq_length, c, h, w = x.shape
-        else:
-            raise ValueError(f"Unexpected input tensor shape: {x.shape}")
-
+        batch_size,seq_length, c, h, w = x.shape
         x = x.view(batch_size * seq_length, c, h, w)
         fmap = self.model(x)
         x = self.avgpool(fmap)
-        x = x.view(batch_size, seq_length, 2048)
-        x_lstm, _ = self.lstm(x, None)
-        return fmap, self.dp(self.linear1(x_lstm[:, -1, :]))
+        x = x.view(batch_size,seq_length,2048)
+        x_lstm,_ = self.lstm(x,None)
+        return fmap,self.dp(self.linear1(x_lstm[:,-1,:]))
 
 
 
 # Load your trained model
 def load_model(model_path, num_classes, map_location=torch.device('cpu')):
-    model = tModel(num_classes)
+    model = Model(num_classes)
     model.load_state_dict(torch.load(model_path, map_location=map_location))  # Use map_location here
     model.eval()  # Set the model to evaluation mode
     return model
