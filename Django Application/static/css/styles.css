@@ -3,7 +3,7 @@ body {
     background: linear-gradient(15deg, #6a11cb, #18015c);
     animation: gradientAnimation 10s ease infinite;
 }
-.bg {
+.bg{
     /* The image used */
     background: linear-gradient(135deg, #ded5e8, #022d73,#230d39,#5146d7); /* Purple to blue gradient */
     -webkit-background-size: cover;
@@ -32,7 +32,11 @@ body {
 section{
     padding-top: 60px;
 }
-
+.container{
+    background-size: 300% 300%;
+    background: linear-gradient(135deg, #ded5e8, #022d73,#230d39,#5146d7);
+    animation: gradientAnimation 10s ease infinite;
+}
 .width-300{
     width: 300px;
     margin: auto;
