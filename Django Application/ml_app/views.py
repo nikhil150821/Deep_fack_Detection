@@ -363,10 +363,17 @@ def predict_page(request):
                 print("<=== | Started Prediction | ===>")
                 prediction = predict(model, video_dataset[i], './', video_file_name_only)
                 confidence = round(prediction[1], 1)
-                output = "REAL" if prediction[0] == 1 else "FAKE"
+                
+                # Modify output logic to include confidence check
+                if prediction[0] == 1 and confidence >= 99.96:
+                    output = "REAL"
+                else:
+                    output = "FAKE"
+                
                 print("Prediction:", prediction[0], "==", output, "Confidence:", confidence)
                 print("<=== | Prediction Done | ===>")
                 print("--- %s seconds ---" % (time.time() - start_time))
+
 
                 # Uncomment if you want to create heat map images
                 # for j in range(sequence_length):

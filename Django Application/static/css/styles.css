@@ -13,10 +13,21 @@ body {
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    /* background-size: cover; */
     background-size: 300% 300%;
 
 
+}
+.logo{
+    img{
+        width: 800px;
+        vertical-align:middle;
+        border-style:none
+    }
+}
+.faces .preprocess{
+    img{vertical-align:middle;
+    border-style:none}
 }
 @keyframes gradientAnimation {
     0% {
