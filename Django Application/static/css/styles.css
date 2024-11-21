@@ -145,6 +145,57 @@ canvas {
     padding-right: 20px;
     padding-bottom: 50px;
 }
+.result {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .result {
+    h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+  }
+  
+  .result {
+    video {
+        margin: 20px auto;
+        display: block;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+    }
+  }
+  
+  .result h4 {
+    font-size: 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .result{
+    img {
+        vertical-align: middle;
+        height: 50px;
+        width: 50px;}
+  } 
+  
+  .result span {
+    font-weight: bold;
+  }
+  
+  .result {span.green {
+    color: green;}
+  }
+  
+  .result {span.red {
+    color: red;}
+  }
+  
 
 #heatmap_images{
     white-space: nowrap;

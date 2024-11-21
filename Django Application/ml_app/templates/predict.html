@@ -34,14 +34,19 @@
     <video height="320" width="640" id="predict-media" controls>
       <source src="{{MEDIA_URL}}{{original_video}}" type="video/mp4" codecs="avc1.4d002a" />
     </video>
-    {%if output == "REAL" %}
-    <h4 class="mx-auto">Result: <span style="color:green">{{output}}</span>
-      <img src="{% static 'images/thumpup.png'%}" alt="real" height="100px" width=auto>
-      {%else%}
-      <h4 class="mx-auto">Result: <span style="color:red">{{output}}</span>
-        <img src="{% static 'images/thumpdown.png'%}" alt="fake" height="100px" width=auto >
-      {%endif%}
+    {% if output == "REAL" %}
+    <h4 class="mx-auto">
+      Result: <span class="green">{{ output }}</span>
+      <img src="{% static 'images/thumpup.png' %}" alt="real">
+    </h4>
+    {% else %}
+    <h4 class="mx-auto">
+      Result: <span class="red">{{ output }}</span>
+      <img src="{% static 'images/thumpdown.png' %}" alt="fake">
+    </h4>
+    {% endif %}
   </div>
+  
 <!--
   <h3>Heat Maps</h3>
   <div id="heatmap_images" class="col-12 mb-4 ">
