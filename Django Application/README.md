@@ -21,7 +21,7 @@ Django >= v3.0
 - templates -> Template files for HTML
 
 <b>Note:</b> Before running the project make sure you have created directories namely <strong>models, uploaded_images, uploaded_videos</strong> in the project root and that you have proper permissions to access them.
-# Running application on Docker
+<!-- # Running application on Docker
 #### Step 1: Install docker desktop and start the Docker daemon
 
 #### Step 2: Run the deepfake detection docker docker image
@@ -34,12 +34,9 @@ docker run -p 80:80 --volumes-from deepfakeapplication -v static_volume:/home/ap
 ```
 #### Step 4: All set now launch up your application at [http://localhost:80](http://localhost:80)
 
-### Step 5: Star⭐ this repo 😉 on <a href="https://github.com/abhijitjadhav1998/Deepfake_detection_using_deep_learning" >  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /> </a> and   Star⭐ this image on <a href="https://hub.docker.com/r/abhijitjadhav1998/deefake-detection-20framemodel">  <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" /> </a>
-
-## We deserve a Coffee ☕ <a href="https://www.buymeacoffee.com/abhijitjadhav" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 35px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+### Step 5: Star⭐ this repo 😉 on <a href="https://github.com/abhijitjadhav1998/Deepfake_detection_using_deep_learning" >  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /> </a> and   Star⭐ this image on <a href="https://hub.docker.com/r/abhijitjadhav1998/deefake-detection-20framemodel">  <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" /> </a> -->
 
 
-Please note that currently we have only pushed the image of 20 Frames model, If you can to create your own image of other frames model follow the steps given in the [blog](https://abhijithjadhav.medium.com/dockerise-deepfake-detection-django-application-using-nvidia-cuda-40cdda3b6d38).
 
 # Running application locally on your machine
 
