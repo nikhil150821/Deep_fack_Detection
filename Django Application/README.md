@@ -74,7 +74,6 @@ docker run -p 80:80 --volumes-from deepfakeapplication -v static_volume:/home/ap
 `python manage.py runserver`
 
 ## Demo 
-### You can watch the [youtube video](https://www.youtube.com/watch?v=_q16aJTXVRE&t=823s) for demo
 <p align="center">
   <img src="https://github.com/nikhil150821/Deep_fack_Detection/blob/main/github_assets/fake%20gif.gif" />
 </p>  
